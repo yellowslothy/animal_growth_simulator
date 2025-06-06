@@ -17,24 +17,35 @@ if 'animal' not in st.session_state:
 
 animal = st.session_state.animal
 
-st.subheader(f"{animal.name}의 상태")
-
 if hasattr(animal, 'is_alive') and not animal.is_alive:
-    st.write("💀 고양이가 죽었습니다.")
+    # 고양이가 죽었을 때 큰 글씨로 메시지 표시
+    st.markdown(
+        """
+        <div style="display:flex; justify-content:center; align-items:center; height:80vh;">
+            <h1 style="color:red; font-size:80px; text-align:center;">
+                💀 고양이가 죽었습니다...
+            </h1>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 else:
+    st.subheader(f"{animal.name}의 상태")
     status = animal.status()
     st.write(f"나이: {status['Age']}살")
     st.write(f"레벨: {status['Level']}")
     st.write(f"경험치: {status['Experience']} / {status['Level'] * 50}")
 
-    food = st.selectbox("먹이를 선택하세요", ["생선", "초콜릿"])
+    col1, col2 = st.columns(2)
 
-    if st.button("🍖 먹이 주기"):
-        if food == "생선":
-            animal.feed(fish=True)  # 경험치 올리기
+    with col1:
+        if st.button("🍣 생선 먹이 주기"):
+            animal.feed(fish=True)
             st.success(f"{animal.name}에게 생선을 주었습니다! 경험치가 올랐어요!")
-        elif food == "초콜릿":
-            animal.die()  # 고양이 죽음 처리
+
+    with col2:
+        if st.button("🍫 초콜릿 먹이 주기"):
+            animal.die()
             st.error(f"⚠️ {animal.name}가 초콜릿을 먹고 죽었습니다...")
 
 if st.button("🔄 초기화"):
