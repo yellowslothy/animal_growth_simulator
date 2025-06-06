@@ -80,9 +80,5 @@ else:
             st.error(f"⚠️ {animal.name}가 초콜릿을 먹고 죽었습니다...")
 
 if st.button("🔄 초기화"):
-    try:
-        st.session_state.animal = Animal(animal_name)
-        st.experimental_rerun()
-        st.stop()
-    except Exception as e:
-        st.error(f"초기화 중 오류가 발생했습니다: {e}")
+    st.session_state.animal = Animal(animal_name)
+    st.stop()
