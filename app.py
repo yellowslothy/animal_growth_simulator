@@ -1,6 +1,37 @@
 import streamlit as st
-from animals import Animal
 from PIL import Image
+
+# Animal 클래스 코드 여기 넣거나, animals.py에서 import
+
+class Animal:
+    def __init__(self, name):
+        self.name = name
+        self.age = 0
+        self.level = 1
+        self.experience = 0
+        self.is_alive = True
+
+    def status(self):
+        return {
+            "Age": self.age,
+            "Level": self.level,
+            "Experience": self.experience,
+        }
+
+    def feed(self, fish=False):
+        if not self.is_alive:
+            return
+        if fish:
+            self.experience += 10
+            if self.experience >= self.level * 50:
+                self.level_up()
+
+    def die(self):
+        self.is_alive = False
+
+    def level_up(self):
+        self.level += 1
+        self.experience = 0
 
 st.set_page_config(page_title="고양이 성장 시뮬레이터", page_icon="🐱", layout="centered")
 
@@ -9,16 +40,16 @@ st.markdown("고양이에게 먹이를 주고 성장시켜보세요!")
 
 animal_name = "고양이"
 
-image = Image.open("images/cat.png")
-st.image(image, caption=animal_name, use_container_width=True)
+# 임시 이미지 없으면 주석처리 가능
+# image = Image.open("images/cat.png")
+# st.image(image, caption=animal_name, use_container_width=True)
 
 if 'animal' not in st.session_state:
     st.session_state.animal = Animal(animal_name)
 
 animal = st.session_state.animal
 
-if hasattr(animal, 'is_alive') and not animal.is_alive:
-    # 고양이가 죽었을 때 큰 글씨로 메시지 표시
+if not animal.is_alive:
     st.markdown(
         """
         <div style="display:flex; justify-content:center; align-items:center; height:80vh;">
@@ -51,3 +82,4 @@ else:
 if st.button("🔄 초기화"):
     st.session_state.animal = Animal(animal_name)
     st.experimental_rerun()
+    st.stop()
