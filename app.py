@@ -1,14 +1,22 @@
 import streamlit as st
 from animals import Animal
+from PIL import Image
 
-st.set_page_config(page_title="동물 성장 시뮬레이터", page_icon="🐾", layout="centered")
+st.set_page_config(page_title="고양이 성장 시뮬레이터", page_icon="🐱", layout="centered")
 
-st.title("🐾 동물 성장 시뮬레이터")
-st.markdown("먹이를 주고 동물을 성장시켜보세요!")
+st.title("🐱 고양이 성장 시뮬레이터")
+st.markdown("고양이에게 먹이를 주고 성장시켜보세요!")
 
+# 선택 없이 고양이로 고정
+animal_name = "고양이"
+
+# 고양이 이미지 표시
+image = Image.open("images/cat.png")
+st.image(image, caption=animal_name, use_column_width=True)
+
+# Animal 객체 초기화
 if 'animal' not in st.session_state:
-    animal_choice = st.selectbox("동물을 선택하세요", ["강아지", "고양이", "토끼"])
-    st.session_state.animal = Animal(animal_choice)
+    st.session_state.animal = Animal(animal_name)
 
 animal = st.session_state.animal
 
@@ -23,5 +31,5 @@ if st.button("🍖 먹이 주기"):
     st.success(f"{animal.name}에게 먹이를 주었습니다!")
 
 if st.button("🔄 초기화"):
-    st.session_state.animal = Animal(animal.name)
+    st.session_state.animal = Animal(animal_name)
     st.experimental_rerun()
