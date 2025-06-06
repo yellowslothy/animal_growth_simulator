@@ -10,7 +10,7 @@ st.markdown("고양이에게 먹이를 주고 성장시켜보세요!")
 animal_name = "고양이"
 
 image = Image.open("images/cat.png")
-st.image(image, caption=animal_name, use_column_width=True)
+st.image(image, caption=animal_name, use_container_width=True)  # 여기 수정
 
 if 'animal' not in st.session_state:
     st.session_state.animal = Animal(animal_name)
