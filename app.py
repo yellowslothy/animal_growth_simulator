@@ -7,14 +7,11 @@ st.set_page_config(page_title="고양이 성장 시뮬레이터", page_icon="�
 st.title("🐱 고양이 성장 시뮬레이터")
 st.markdown("고양이에게 먹이를 주고 성장시켜보세요!")
 
-# 선택 없이 고양이로 고정
 animal_name = "고양이"
 
-# 고양이 이미지 표시
 image = Image.open("images/cat.png")
 st.image(image, caption=animal_name, use_column_width=True)
 
-# Animal 객체 초기화
 if 'animal' not in st.session_state:
     st.session_state.animal = Animal(animal_name)
 
