@@ -1,8 +1,6 @@
 import streamlit as st
 from PIL import Image
 
-# Animal 클래스 코드 여기 넣거나, animals.py에서 import
-
 class Animal:
     def __init__(self, name):
         self.name = name
@@ -40,9 +38,11 @@ st.markdown("고양이에게 먹이를 주고 성장시켜보세요!")
 
 animal_name = "고양이"
 
-# 임시 이미지 없으면 주석처리 가능
-# image = Image.open("images/cat.png")
-# st.image(image, caption=animal_name, use_container_width=True)
+try:
+    image = Image.open("images/cat.png")
+    st.image(image, caption=animal_name, use_container_width=True)
+except FileNotFoundError:
+    st.write("이미지 파일이 없습니다.")
 
 if 'animal' not in st.session_state:
     st.session_state.animal = Animal(animal_name)
@@ -80,6 +80,9 @@ else:
             st.error(f"⚠️ {animal.name}가 초콜릿을 먹고 죽었습니다...")
 
 if st.button("🔄 초기화"):
-    st.session_state.animal = Animal(animal_name)
-    st.experimental_rerun()
-    st.stop()
+    try:
+        st.session_state.animal = Animal(animal_name)
+        st.experimental_rerun()
+        st.stop()
+    except Exception as e:
+        st.error(f"초기화 중 오류가 발생했습니다: {e}")
